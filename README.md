@@ -5,7 +5,7 @@
 ## 🚀 Quick Start
 
 ```bash
-# Install globally
+# Install globally from npm
 npm install -g claude-story
 
 # Start monitoring (run once)
@@ -15,7 +15,7 @@ claude-story start
 claude-story status
 ```
 
-That's it! Claude Story will now automatically save all your Claude Code conversations.
+That's it! Claude Story will now automatically save all your Claude Code conversations to `.claude-story/` directories in each project.
 
 ## ✨ Features
 
@@ -55,15 +55,31 @@ your-project/
 ```bash
 # Start monitoring (runs continuously)
 claude-story start
+# or
+cs start
 
 # Check detection status  
 claude-story status
+# or  
+cs status
 
 # Stop monitoring
 claude-story stop
+# or
+cs stop
 
 # Show help
 claude-story help
+# or
+cs help
+```
+
+## 📦 Installation
+
+Claude Story is available as an npm package:
+
+```bash
+npm install -g claude-story
 ```
 
 ## 🔧 Requirements
