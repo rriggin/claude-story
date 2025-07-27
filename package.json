@@ -1,0 +1,51 @@
+{
+  "name": "claude-story",
+  "version": "1.0.0",
+  "description": "Automatic conversation history manager for Claude Code. Auto-saves all Claude conversations to markdown files with SQLite database tracking, just like SpecStory for Cursor.",
+  "type": "module",
+  "main": "./lib/daemon.js",
+  "bin": {
+    "claude-story": "./bin/claude-story.js",
+    "cs": "./bin/claude-story.js"
+  },
+  "scripts": {
+    "start": "node ./bin/claude-story.js start",
+    "test": "node ./bin/claude-story.js status"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.6",
+    "uuid": "^9.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": [
+    "claude",
+    "claude-code", 
+    "ai",
+    "conversation",
+    "history", 
+    "sqlite",
+    "specstory",
+    "markdown",
+    "auto-save",
+    "cli"
+  ],
+  "author": "Claude Story Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryanriggin/claude-story.git"
+  },
+  "homepage": "https://github.com/ryanriggin/claude-story#readme",
+  "bugs": {
+    "url": "https://github.com/ryanriggin/claude-story/issues"
+  },
+  "preferGlobal": true,
+  "files": [
+    "bin/",
+    "lib/",
+    "README.md",
+    "LICENSE"
+  ]
+}
