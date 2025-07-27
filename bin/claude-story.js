@@ -11,38 +11,19 @@ const __dirname = path.dirname(__filename);
 // Commands
 const commands = {
   async start() {
-    console.log('🤖 Starting Claude Story...');
-    
-    try {
-      const daemon = new ClaudeStoryDaemon();
-      await daemon.start();
-      
-      // Keep the process alive
-      process.on('SIGINT', () => {
-        daemon.stop();
-        process.exit(0);
-      });
-      
-      // Keep running indefinitely
-      await new Promise(() => {});
-      
-    } catch (error) {
-      console.error('❌ Error starting Claude Story:', error.message);
-      process.exit(1);
-    }
+    ClaudeStoryDaemon.startDaemon();
   },
 
   async stop() {
-    console.log('🛑 Stopping Claude Story daemon...');
-    // Could implement daemon PID tracking here if needed
-    console.log('✅ Claude Story stopped');
+    ClaudeStoryDaemon.stopDaemon();
   },
 
   async status() {
-    console.log('📊 Claude Story Status');
-    console.log('━━━━━━━━━━━━━━━━━━━━━━');
+    ClaudeStoryDaemon.statusDaemon();
     
-    // Check if daemon is running (simplified version)
+    console.log('\n📊 Claude Code Detection');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    
     const homeDir = process.env.HOME;
     const claudeDir = path.join(homeDir, '.claude', 'projects');
     
@@ -62,7 +43,6 @@ const commands = {
       }
       
       console.log(`📁 Found ${totalConversations} conversation files`);
-      console.log('🔍 Run \`claude-story start\` to begin auto-monitoring');
     } else {
       console.log('❌ Claude Code not found');
       console.log('💡 Make sure Claude Code is installed and has been used');
@@ -79,32 +59,38 @@ USAGE
   claude-story <command>
 
 COMMANDS
-  start            Start monitoring Claude conversations (runs continuously)
+  start            Start monitoring daemon in background
   stop             Stop the monitoring daemon
-  status           Show current status and detected conversations
+  status           Show daemon status and detected conversations
   help             Show this help
 
 EXAMPLES
-  claude-story start          # Start auto-monitoring all conversations
-  claude-story status         # Check if Claude Code is detected
+  claude-story start          # Start daemon (runs in background)
+  claude-story status         # Check daemon status
+  claude-story stop           # Stop daemon
 
-AUTO-MONITORING
-  Claude Story automatically:
-  - Detects all your Claude Code projects
+DAEMON MODE
+  Claude Story runs as a background daemon:
+  - Starts with 'claude-story start' (returns control immediately)
+  - Runs continuously in background
+  - Automatically detects all Claude Code projects
   - Creates .claude-story/ directories as needed
   - Saves conversations to markdown files in real-time
-  - No manual setup required per project
+  - Stop with 'claude-story stop'
 
-INSTALLATION
-  After running the install script, just run:
-  claude-story start
+LOGS
+  Daemon logs are saved to: ~/.claude-story-daemon.log
 `);
 }
 
 // CLI
 const [,, command, ...args] = process.argv;
 
-if (!command || command === 'help' || command === '-h' || command === '--help') {
+// Check for daemon mode first
+if (process.argv.includes('--daemon')) {
+  const daemon = new ClaudeStoryDaemon();
+  daemon.startMonitoring().catch(console.error);
+} else if (!command || command === 'help' || command === '-h' || command === '--help') {
   showHelp();
 } else if (commands[command]) {
   commands[command](...args).catch(console.error);
