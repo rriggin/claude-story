@@ -25,6 +25,7 @@ That's it! Claude Story will now automatically save all your Claude Code convers
 - **📄 Markdown Export** - Auto-exports conversations to readable markdown files
 - **🔍 Cross-Project Search** - Compatible with MCP servers for enhanced search capabilities
 - **⚡ Real-time Sync** - Conversations saved as you chat with Claude
+- **🙈 Git Integration** - Automatically adds `.claude-story/` to .gitignore when created
 
 ## 🎯 How It Works
 
