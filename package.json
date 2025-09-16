@@ -38,11 +38,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ryanriggin/claude-story.git"
+    "url": "https://github.com/rriggin/claude-story.git"
   },
-  "homepage": "https://github.com/ryanriggin/claude-story#readme",
+  "homepage": "https://github.com/rriggin/claude-story#readme",
   "bugs": {
-    "url": "https://github.com/ryanriggin/claude-story/issues"
+    "url": "https://github.com/rriggin/claude-story/issues"
   },
   "preferGlobal": true,
   "files": [
