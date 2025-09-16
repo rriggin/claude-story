@@ -205,6 +205,49 @@ const commands = {
 
   async 'disable-autostart'() {
     await autostart.disable();
+  },
+
+  async init() {
+    const cwd = process.cwd();
+    const claudeStoryDir = path.join(cwd, '.claude-story');
+
+    // Create .claude-story directory if it doesn't exist
+    if (!fs.existsSync(claudeStoryDir)) {
+      fs.mkdirSync(claudeStoryDir, { recursive: true });
+    }
+
+    // Create autostart.sh if it doesn't exist
+    const autostartPath = path.join(claudeStoryDir, 'autostart.sh');
+    if (fs.existsSync(autostartPath)) {
+      console.log('ℹ️ autostart.sh already exists in .claude-story/');
+      console.log('💡 Edit it to customize project startup commands');
+      return;
+    }
+
+    const autostartScript = `#!/bin/bash
+# Claude Story Auto-Start Script
+# This script can be customized to run commands when Claude Code opens this project
+
+# Example: Start claude-story daemon if not already running
+# if ! pgrep -f "claude-story.*--daemon" > /dev/null; then
+#   claude-story start
+# fi
+
+# Example: Start development servers
+# npm run dev
+
+# Example: Run custom setup commands
+# echo "Claude Code opened in $(pwd)"
+
+# Add your custom startup commands below:
+`;
+
+    fs.writeFileSync(autostartPath, autostartScript);
+    fs.chmodSync(autostartPath, 0o755);
+
+    console.log('✅ Created .claude-story/autostart.sh');
+    console.log('📝 Edit this script to run commands when Claude Code opens this project');
+    console.log('💡 Examples: start dev servers, run setup commands, ensure claude-story is running');
   }
 };
 
@@ -220,6 +263,7 @@ COMMANDS
   start                Start monitoring daemon in background
   stop                 Stop the monitoring daemon
   status               Show daemon status and detected conversations
+  init                 Create autostart.sh script in current project
   --autostart          Enable auto-start on login (macOS)
   disable-autostart    Disable auto-start on login
   help                 Show this help
@@ -228,6 +272,7 @@ EXAMPLES
   claude-story start           # Start daemon (runs in background)
   claude-story status          # Check daemon status
   claude-story stop            # Stop daemon
+  claude-story init            # Create autostart.sh in current project
   claude-story --autostart     # Enable auto-start on login
   claude-story disable-autostart  # Disable auto-start
 
@@ -245,6 +290,13 @@ AUTO-START
   - Uses macOS launchd for reliable background operation
   - Starts silently in the background
   - No need to remember to run 'claude-story start'
+
+PROJECT AUTO-START
+  Customize project startup with autostart.sh:
+  - Run 'claude-story init' in any project to create autostart.sh
+  - Edit .claude-story/autostart.sh to add custom startup commands
+  - Examples: start dev servers, ensure claude-story is running
+  - Script is created automatically in new projects
 
 LOGS
   Daemon logs are saved to: ~/.claude-story-daemon.log
