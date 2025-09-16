@@ -1,7 +1,7 @@
 {
   "name": "claude-story",
-  "version": "1.0.1",
-  "description": "Automatic conversation history manager for Claude Code. Auto-saves all Claude conversations to markdown files with SQLite database tracking, just like SpecStory for Cursor.",
+  "version": "1.1.0",
+  "description": "Automatic conversation history manager for Claude Code. Auto-saves all Claude conversations to markdown files with SQLite database tracking and auto-start support, just like SpecStory for Cursor.",
   "type": "module",
   "main": "./lib/daemon.js",
   "bin": {
@@ -29,6 +29,9 @@
     "specstory",
     "markdown",
     "auto-save",
+    "autostart",
+    "daemon",
+    "launchd",
     "cli"
   ],
   "author": "Claude Story Team",
