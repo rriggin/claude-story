@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
 import { ClaudeStoryDaemon } from '../lib/daemon.js';
+import { ClaudeStoryConfig } from '../lib/config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -204,7 +205,15 @@ const commands = {
   },
 
   async 'disable-autostart'() {
+    const config = new ClaudeStoryConfig();
+
+    // Disable system autostart (launchd)
     await autostart.disable();
+
+    // Update config flag
+    config.disableAutoStart();
+
+    console.log('✅ Auto-start disabled in config');
   },
 
   async init() {
@@ -248,6 +257,18 @@ const commands = {
     console.log('✅ Created .claude-story/autostart.sh');
     console.log('📝 Edit this script to run commands when Claude Code opens this project');
     console.log('💡 Examples: start dev servers, run setup commands, ensure claude-story is running');
+  },
+
+  async autostart() {
+    const config = new ClaudeStoryConfig();
+
+    // Enable system autostart (launchd)
+    await autostart.enable();
+
+    // Set config flag
+    config.enableAutoStart();
+
+    console.log('✅ Auto-start enabled in config');
   }
 };
 
